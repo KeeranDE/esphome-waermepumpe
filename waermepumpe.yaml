@@ -1,0 +1,47 @@
+esphome:
+  name: waermepumpe-zaehler
+  friendly_name: ESPHome Wärmepumpe Zähler
+
+esp32:
+  board: esp32-pico-devkit
+  framework:
+    type: arduino
+
+wifi:
+  ssid: "Area51"
+  password: "masterof@online.de"
+
+  ap:
+    ssid: "Waermepumpe-Zaehler Fallback"
+    password: "NotfallPasswort123"
+
+api:
+ota:
+  - platform: esphome
+
+light:
+  - platform: esp32_io_led
+    name: "Atom Lite Status LED"
+    pin: GPIO27
+
+sensor:
+  - platform: pulse_meter
+    pin:
+      number: GPIO22
+      mode: INPUT_PULLUP
+    name: "Wärmepumpe Aktuelle Leistung"
+    unit_of_measurement: "kW"
+    icon: "mdi:heat-pump"
+    state_class: "measurement"
+    device_class: "power"
+    internal_filter: 50ms
+
+    total:
+      name: "Wärmepumpe Zählerstand Gesamt"
+      unit_of_measurement: "kWh"
+      icon: "mdi:counter"
+      device_class: "energy"
+      state_class: "total_increasing"
+      accuracy_decimals: 2
+      filters:
+        - multiply: 0.01
