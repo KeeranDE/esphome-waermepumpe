@@ -1,0 +1,16 @@
+name: ESPHome Compile
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: esphome/build-action@v2
+        with:
+          yaml_file: waermepumpe.yaml
+          version: latest
